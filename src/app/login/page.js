@@ -1,4 +1,7 @@
 
+
+
+
 "use client";
 
 import { useState } from "react";
@@ -13,11 +16,12 @@ const loginSchema = z.object({
 
 export default function LoginPage() {
   const [mensaje, setMensaje] = useState("");
+  const [errorLogin, setErrorLogin] = useState("");
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -26,9 +30,45 @@ export default function LoginPage() {
     },
   });
 
-  const onSubmit = () => {
-    // La conexión con Django se implementará en el siguiente paso.
-    setMensaje("Formulario válido. Falta conectar con la API.");
+  const onSubmit = async (datos) => {
+    setMensaje("");
+    setErrorLogin("");
+
+    try {
+      const respuesta = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/token/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: datos.username,
+            password: datos.password,
+          }),
+        }
+      );
+
+      if (!respuesta.ok) {
+        if (respuesta.status === 401) {
+          setErrorLogin("Usuario o contraseña incorrectos.");
+        } else {
+          setErrorLogin("Ocurrió un error al iniciar sesión.");
+        }
+        return;
+      }
+
+      const tokens = await respuesta.json();
+
+      if (!tokens.access || !tokens.refresh) {
+        setErrorLogin("No se recibieron los tokens JWT.");
+        return;
+      }
+
+      setMensaje("Inicio de sesión correcto. Tokens JWT recibidos.");
+    } catch {
+      setErrorLogin("No se pudo conectar con el servidor Django.");
+    }
   };
 
   return (
@@ -38,6 +78,7 @@ export default function LoginPage() {
           <h1 className="text-3xl font-bold text-stone-800">
             Mueblería Arboleda
           </h1>
+
           <p className="mt-2 text-sm text-stone-500">
             Ingresá con tu cuenta para continuar
           </p>
@@ -96,10 +137,17 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full cursor-pointer rounded-lg bg-amber-800 py-3 font-semibold text-white transition hover:bg-amber-900"
+            disabled={isSubmitting}
+            className="w-full cursor-pointer rounded-lg bg-amber-800 py-3 font-semibold text-white transition hover:bg-amber-900 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Iniciar sesión
+            {isSubmitting ? "Iniciando sesión..." : "Iniciar sesión"}
           </button>
+
+          {errorLogin && (
+            <p role="alert" className="text-center text-sm text-red-600">
+              {errorLogin}
+            </p>
+          )}
 
           {mensaje && (
             <p role="status" className="text-center text-sm text-green-700">
@@ -111,3 +159,4 @@ export default function LoginPage() {
     </main>
   );
 }
+
