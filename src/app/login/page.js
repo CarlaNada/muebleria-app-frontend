@@ -19,7 +19,7 @@ const loginSchema = z.object({
 export default function LoginPage() {
   const [mensaje, setMensaje] = useState("");
   const [errorLogin, setErrorLogin] = useState("");
-  const { login, usuario, estaAutenticado } = useAuth();
+  const { login,logout, usuario, estaAutenticado } = useAuth();
 
   const {
     register,
@@ -159,11 +159,27 @@ export default function LoginPage() {
             </p>
           )}
 
+  
           {estaAutenticado && (
-            <div className="rounded-lg bg-green-100 p-3 text-center text-green-800">
-              Sesión activa para: <strong>{usuario}</strong>
+            <div className="rounded-lg bg-green-100 p-4 text-center text-green-800">
+              <p>
+                Sesión activa para: <strong>{usuario}</strong>
+              </p>
+
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  setMensaje("");
+                  setErrorLogin("");
+                }}
+                className="mt-3 cursor-pointer rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+              >
+                Cerrar sesión
+              </button>
             </div>
           )}
+
 
 
         </form>
