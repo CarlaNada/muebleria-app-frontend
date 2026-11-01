@@ -8,6 +8,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useAuth } from "../../context/AuthContext";
+
 
 const loginSchema = z.object({
   username: z.string().trim().min(1, "El usuario es obligatorio"),
@@ -17,6 +19,7 @@ const loginSchema = z.object({
 export default function LoginPage() {
   const [mensaje, setMensaje] = useState("");
   const [errorLogin, setErrorLogin] = useState("");
+  const { login, usuario, estaAutenticado } = useAuth();
 
   const {
     register,
@@ -65,7 +68,8 @@ export default function LoginPage() {
         return;
       }
 
-      setMensaje("Inicio de sesión correcto. Tokens JWT recibidos.");
+      login(datos.username, tokens);
+      setMensaje("Inicio de sesión correcto.");
     } catch {
       setErrorLogin("No se pudo conectar con el servidor Django.");
     }
@@ -154,6 +158,14 @@ export default function LoginPage() {
               {mensaje}
             </p>
           )}
+
+          {estaAutenticado && (
+            <div className="rounded-lg bg-green-100 p-3 text-center text-green-800">
+              Sesión activa para: <strong>{usuario}</strong>
+            </div>
+          )}
+
+
         </form>
       </section>
     </main>
