@@ -43,7 +43,7 @@ export default function AuthControls() {
     <div className="flex flex-wrap items-center gap-3">
       {estaAutenticado ? (
         <>
-          <span className="text-sm text-stone-700">
+          <span className="text-sm text-stone-100">
             Hola, <strong>{usuario}</strong>
           </span>
 
