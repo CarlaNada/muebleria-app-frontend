@@ -1,4 +1,6 @@
+
 import Link from 'next/link';
+import AuthControls from '@/components/AuthControls';
 
 export default function Header() {
   return (
@@ -19,6 +21,7 @@ export default function Header() {
           <Link href="/" className="transition-colors hover:text-wood">
             Inicio
           </Link>
+
           <Link href="/productos" className="transition-colors hover:text-wood">
             Productos
           </Link>
@@ -30,6 +33,8 @@ export default function Header() {
         >
           Ver catálogo
         </Link>
+
+        <AuthControls />
       </div>
     </header>
   );
