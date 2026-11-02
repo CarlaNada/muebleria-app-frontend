@@ -1,36 +1,75 @@
 
+
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [accessToken, setAccessToken] = useState(null);
-  const [refreshToken, setRefreshToken] = useState(null);
   const [usuario, setUsuario] = useState(null);
+  const [cargandoSesion, setCargandoSesion] = useState(true);
 
-  const login = (username, tokens) => {
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const recuperarSesion = async () => {
+      try {
+        const respuesta = await fetch("/api/auth/session", {
+          method: "POST",
+          cache: "no-store",
+          signal: controller.signal,
+        });
+
+        if (!respuesta.ok) {
+          return;
+        }
+
+        const datos = await respuesta.json();
+
+        if (
+          !controller.signal.aborted &&
+          datos.estaAutenticado &&
+          datos.usuario
+        ) {
+          setUsuario(datos.usuario);
+        }
+      } catch {
+        // Si falla la conexión, no recuperamos la sesión.
+      } finally {
+        if (!controller.signal.aborted) {
+          setCargandoSesion(false);
+        }
+      }
+    };
+
+    recuperarSesion();
+
+    return () => controller.abort();
+  }, []);
+
+  const login = (username) => {
     setUsuario(username);
-    setAccessToken(tokens.access);
-    setRefreshToken(tokens.refresh);
+    setCargandoSesion(false);
   };
 
   const logout = () => {
     setUsuario(null);
-    setAccessToken(null);
-    setRefreshToken(null);
   };
 
-  const estaAutenticado = Boolean(accessToken);
+  const estaAutenticado = Boolean(usuario);
 
   return (
     <AuthContext.Provider
       value={{
         usuario,
-        accessToken,
-        refreshToken,
         estaAutenticado,
+        cargandoSesion,
         login,
         logout,
       }}

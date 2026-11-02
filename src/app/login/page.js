@@ -33,47 +33,56 @@ export default function LoginPage() {
     },
   });
 
-  const onSubmit = async (datos) => {
+
+const onSubmit = async (datos) => {
+  setMensaje("");
+  setErrorLogin("");
+
+  try {
+    const respuesta = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: datos.username,
+        password: datos.password,
+      }),
+    });
+
+    const resultado = await respuesta.json();
+
+    if (!respuesta.ok) {
+      setErrorLogin(
+        resultado.error || "Ocurrió un error al iniciar sesión."
+      );
+      return;
+    }
+
+    login(resultado.usuario);
+    setMensaje("Inicio de sesión correcto.");
+  } catch {
+    setErrorLogin("No se pudo conectar con el servidor.");
+  }
+};
+
+const cerrarSesion = async () => {
+  try {
+    const respuesta = await fetch("/api/auth/logout", {
+      method: "POST",
+    });
+
+    if (!respuesta.ok) {
+      throw new Error("Error al cerrar sesión");
+    }
+
+    logout();
     setMensaje("");
     setErrorLogin("");
-
-    try {
-      const respuesta = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/token/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: datos.username,
-            password: datos.password,
-          }),
-        }
-      );
-
-      if (!respuesta.ok) {
-        if (respuesta.status === 401) {
-          setErrorLogin("Usuario o contraseña incorrectos.");
-        } else {
-          setErrorLogin("Ocurrió un error al iniciar sesión.");
-        }
-        return;
-      }
-
-      const tokens = await respuesta.json();
-
-      if (!tokens.access || !tokens.refresh) {
-        setErrorLogin("No se recibieron los tokens JWT.");
-        return;
-      }
-
-      login(datos.username, tokens);
-      setMensaje("Inicio de sesión correcto.");
-    } catch {
-      setErrorLogin("No se pudo conectar con el servidor Django.");
-    }
-  };
+  } catch {
+    setErrorLogin("No se pudo cerrar la sesión.");
+  }
+};
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-stone-100 px-4 py-10">
@@ -166,17 +175,14 @@ export default function LoginPage() {
                 Sesión activa para: <strong>{usuario}</strong>
               </p>
 
-              <button
-                type="button"
-                onClick={() => {
-                  logout();
-                  setMensaje("");
-                  setErrorLogin("");
-                }}
-                className="mt-3 cursor-pointer rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-              >
-                Cerrar sesión
-              </button>
+            <button
+              type="button"
+              onClick={cerrarSesion}
+              className="mt-3 cursor-pointer rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+            >
+              Cerrar sesión
+            </button>
+            
             </div>
           )}
 
