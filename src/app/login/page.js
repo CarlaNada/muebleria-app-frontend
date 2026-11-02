@@ -9,6 +9,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAuth } from "../../context/AuthContext";
+import { useRouter } from "next/navigation";
+import FormField from "../../components/FormField";
 
 
 const loginSchema = z.object({
@@ -20,7 +22,7 @@ export default function LoginPage() {
   const [mensaje, setMensaje] = useState("");
   const [errorLogin, setErrorLogin] = useState("");
   const { login,logout, usuario, estaAutenticado } = useAuth();
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -60,7 +62,7 @@ const onSubmit = async (datos) => {
     }
 
     login(resultado.usuario);
-    setMensaje("Inicio de sesión correcto.");
+    router.replace("/");
   } catch {
     setErrorLogin("No se pudo conectar con el servidor.");
   }
@@ -98,55 +100,24 @@ const cerrarSesion = async () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          <div>
-            <label
-              htmlFor="username"
-              className="mb-2 block text-sm font-medium text-stone-700"
-            >
-              Usuario
-            </label>
+          <FormField
+            label="Usuario"
+            name="username"
+            placeholder="Ingresá tu usuario"
+            autoComplete="username"
+            registration={register("username")}
+            error={errors.username}
+          />
 
-            <input
-              id="username"
-              type="text"
-              autoComplete="username"
-              placeholder="Ingresá tu usuario"
-              aria-invalid={Boolean(errors.username)}
-              {...register("username")}
-              className="w-full rounded-lg border border-stone-300 px-4 py-3 text-stone-800 outline-none focus:border-amber-700"
-            />
-
-            {errors.username && (
-              <p className="mt-1 text-sm text-red-600">
-                {errors.username.message}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="password"
-              className="mb-2 block text-sm font-medium text-stone-700"
-            >
-              Contraseña
-            </label>
-
-            <input
-              id="password"
-              type="password"
-              autoComplete="current-password"
-              placeholder="Ingresá tu contraseña"
-              aria-invalid={Boolean(errors.password)}
-              {...register("password")}
-              className="w-full rounded-lg border border-stone-300 px-4 py-3 text-stone-800 outline-none focus:border-amber-700"
-            />
-
-            {errors.password && (
-              <p className="mt-1 text-sm text-red-600">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
+          <FormField
+          label="Contraseña"
+          name="password"
+          type="password"
+          placeholder="Ingresá tu contraseña"
+          autoComplete="current-password"
+          registration={register("password")}
+          error={errors.password}
+          />
 
           <button
             type="submit"
