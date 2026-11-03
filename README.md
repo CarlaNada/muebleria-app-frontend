@@ -29,6 +29,12 @@ Frontend de la Evaluación Final Integradora (EFI) de Programación III, desarro
 - Protección de rutas administrativas.
 - Validación de permisos de administrador mediante `is_staff`.
 - Páginas de carga, error y recurso no encontrado.
+- CRUD completo de productos desde el panel administrativo.
+- Creación y edición mediante React Hook Form y Zod.
+- Eliminación de productos con confirmación.
+- Operaciones administrativas protegidas mediante JWT.
+- Validación y visualización de errores de la API.
+- Pruebas unitarias con Vitest.
 
 ## Requisitos
 
@@ -77,12 +83,16 @@ http://localhost:3000
 | `/productos/[id]` | Detalle de producto |
 | `/login` | Autenticación |
 | `/admin` | Panel inicial exclusivo para administradores |
+| `/admin/productos` | Listado administrativo de productos |
+| `/admin/productos/nuevo` | Crear producto |
+| `/admin/productos/[id]/editar` | Editar producto |
 
 ## Verificación del proyecto
 
 ```bash
 npm run lint
 npm run build
+npm run test
 ```
 
 ## Integración con Django
@@ -100,4 +110,13 @@ El acceso administrativo se valida mediante el campo `is_staff` del usuario aute
 
 ## Estado del proyecto
 
-Integración local comprobada con Django. El panel administrativo cuenta con control de acceso, pero todavía no incluye funcionalidades de gestión de productos.
+## Estado del proyecto
+
+Frontend integrado con Django REST Framework.
+
+Se implementó el CRUD completo de productos, autenticación JWT,
+protección de rutas administrativas y validaciones con React Hook Form y Zod.
+
+Se configuró Vitest y se aprobaron 4 pruebas unitarias.
+
+Pendiente: despliegue público y documentación final de entrega.

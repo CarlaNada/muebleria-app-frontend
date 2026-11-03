@@ -1,3 +1,4 @@
+import Link from 'next/link';
 
 export default function AdminPage() {
   return (
@@ -17,9 +18,16 @@ export default function AdminPage() {
         </h3>
 
         <p className="mt-2 text-stone-600">
-          Aquí se integrará la administración de productos
-          desarrollada por el equipo.
+          Consultá, creá, editá y eliminá los productos
+          registrados en la mueblería.
         </p>
+
+        <Link
+          href="/admin/productos"
+          className="mt-5 inline-block rounded-lg bg-amber-800 px-5 py-3 font-medium text-white transition hover:bg-amber-900"
+        >
+          Administrar productos
+        </Link>
       </div>
     </section>
   );
