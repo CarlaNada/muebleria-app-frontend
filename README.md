@@ -110,13 +110,9 @@ El acceso administrativo se valida mediante el campo `is_staff` del usuario aute
 
 ## Estado del proyecto
 
-## Estado del proyecto
+Aplicación desplegada en Vercel y conectada con la API Django REST Framework desplegada en Render.
 
-Frontend integrado con Django REST Framework.
-
-Se implementó el CRUD completo de productos, autenticación JWT,
-protección de rutas administrativas y validaciones con React Hook Form y Zod.
-
-Se configuró Vitest y se aprobaron 4 pruebas unitarias.
-
-Pendiente: despliegue público y documentación final de entrega.
+- Aplicación: https://muebleria-app-frontend.vercel.app/
+- API del catálogo: https://muebleria-app-backend.onrender.com/api/catalogo/productos/
+- Repositorio del backend: https://github.com/CarlaNada/muebleria-app-backend
+- Tablero Kanban: pendiente de agregar cuando Mateo lo cree.
