@@ -116,3 +116,29 @@ Aplicación desplegada en Vercel y conectada con la API Django REST Framework de
 - API del catálogo: https://muebleria-app-backend.onrender.com/api/catalogo/productos/
 - Repositorio del backend: https://github.com/CarlaNada/muebleria-app-backend
 - Tablero Kanban: pendiente de agregar cuando Mateo lo cree.
+
+Frontend integrado con Django REST Framework.
+
+Se implementó el CRUD completo de productos, autenticación JWT,
+protección de rutas administrativas y validaciones con React Hook Form y Zod.
+
+Se configuró Vitest y se aprobaron 4 pruebas unitarias.
+
+## Capturas de la aplicación
+
+Página de inicio
+<img width="1339" height="608" alt="pagina inicio" src="https://github.com/user-attachments/assets/fbca83f3-7d22-45c3-9ca6-6ada9cfb93a1" />
+
+
+Catálogo de productos
+<img width="1342" height="603" alt="catalogo productos" src="https://github.com/user-attachments/assets/65b73f93-15d2-443e-9740-b3f9d7981cee" />
+
+
+Login
+<img width="1339" height="602" alt="login" src="https://github.com/user-attachments/assets/96bd2c96-65a6-4fcb-b059-72b556ab4dd7" />
+
+
+
+Panel administrativo
+<img width="1344" height="608" alt="panel administrativo" src="https://github.com/user-attachments/assets/24143ad1-daf6-440c-a7a6-9a9dae0f60fe" />
+
