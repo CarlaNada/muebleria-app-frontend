@@ -115,7 +115,7 @@ Aplicación desplegada en Vercel y conectada con la API Django REST Framework de
 - Aplicación: https://muebleria-app-frontend.vercel.app/
 - API del catálogo: https://muebleria-app-backend.onrender.com/api/catalogo/productos/
 - Repositorio del backend: https://github.com/CarlaNada/muebleria-app-backend
-- Tablero Kanban: pendiente de agregar cuando Mateo lo cree.
+- Tablero Kanban: https://github.com/users/MateoUrquiza2/projects/1/views/1
 
 Frontend integrado con Django REST Framework.
 
