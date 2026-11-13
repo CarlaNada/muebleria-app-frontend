@@ -13,14 +13,26 @@ export default function Footer() {
           </p>
         </div>
 
-        <nav aria-label="Navegación del pie de página" className="flex gap-5 text-sm">
-          <Link href="/" className="hover:text-wood">
-            Inicio
-          </Link>
-          <Link href="/productos" className="hover:text-wood">
-            Productos
-          </Link>
-        </nav>
+          <nav
+            aria-label="Navegación del pie de página"
+            className="flex flex-wrap gap-5 text-sm"
+          >
+            <Link href="/" className="hover:text-wood">
+              Inicio
+            </Link>
+
+            <Link href="/productos" className="hover:text-wood">
+              Productos
+            </Link>
+
+            <Link href="/nosotros" className="hover:text-wood">
+              Nosotros
+            </Link>
+
+            <Link href="/resenas" className="hover:text-wood">
+              Reseñas
+            </Link>
+          </nav>
       </div>
     </footer>
   );
