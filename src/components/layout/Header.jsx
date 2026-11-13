@@ -25,6 +25,15 @@ export default function Header() {
           <Link href="/productos" className="transition-colors hover:text-wood">
             Productos
           </Link>
+
+          <Link href="/nosotros" className="transition-colors hover:text-wood">
+            Nosotros
+          </Link>
+
+          <Link href="/resenas" className="transition-colors hover:text-wood">
+            Reseñas
+          </Link>
+        
         </nav>
 
         <Link
